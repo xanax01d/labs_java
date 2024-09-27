@@ -2,7 +2,6 @@
  * @author xanax01d
  * @laboratoryWorkNumber 1
  * @subject ToPMP
- * @date 11.09.24
  */
 import java.util.Scanner;
 public class Main {
