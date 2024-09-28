@@ -60,10 +60,10 @@ public class Main {
         Scanner in = new Scanner(System.in);
         System.out.print("Введите размер файла в килобайтах: ");
         int sizeOfFileInBytes = in.nextInt();
-        double sizeOfFileInKilobytes = (double) sizeOfFileInBytes / 1000;
-        double sizeOfFileInMegabytes = sizeOfFileInKilobytes / 1000;
-        double sizeOfFileInGigabytes = sizeOfFileInMegabytes / 1000;
-        double sizeOfFileInTerabytes = sizeOfFileInGigabytes / 1000;
+        double sizeOfFileInKilobytes = (double) sizeOfFileInBytes / 1024;
+        double sizeOfFileInMegabytes = sizeOfFileInKilobytes / 1024;
+        double sizeOfFileInGigabytes = sizeOfFileInMegabytes / 1024;
+        double sizeOfFileInTerabytes = sizeOfFileInGigabytes / 1024;
         System.out.println(
                 "Размер файла в килобайтах: " + sizeOfFileInKilobytes +
                         "\nРазмер файла в мегабайтах: " + sizeOfFileInMegabytes +
@@ -101,9 +101,11 @@ public class Main {
         int b = in.nextInt();
         System.out.println("До смены значений переменных: ");
         System.out.println("A = "+a+"\nB = "+b);
+
         a = a + b;
         b = a - b;
         a = a - b;
+
         System.out.println("После смены значений переменных: ");
         System.out.println("A = "+a+"\nB = "+b);
     }
