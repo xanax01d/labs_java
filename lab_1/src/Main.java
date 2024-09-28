@@ -41,8 +41,8 @@ public class Main {
     public static void Dinosaur(){
         Scanner in = new Scanner(System.in);
         System.out.print("Введите массу динозавра (в граммах): ");
-        double massOfDinosaur = in.nextDouble();
-        double massOfDinosaurInKilograms = massOfDinosaur / 1000;
+        int massOfDinosaur = in.nextInt();
+        double massOfDinosaurInKilograms = (double) massOfDinosaur / 1000;
         double massOfDinosaurInCenters = massOfDinosaurInKilograms / 100;
         double massOfDinosaurInTons = massOfDinosaurInCenters /10;
         System.out.println(
