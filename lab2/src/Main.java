@@ -34,11 +34,11 @@ public class Main {
                 } else {
                     print_divider();
                     switch (choice){
-                        case 1 -> {Dragon.main(args); print_divider();break;}
-                        case 2 -> {TheGreatest.main(args);print_divider();break;}
-                        case 3 -> {MoodSensor.main(args);print_divider();break;}
-                        case 4 -> {Dice.main(args);print_divider();break;}
-                        case 5 -> {Letter.main(args); print_divider();break;}
+                        case 1 -> {Dragon.main(args); print_divider();}
+                        case 2 -> {TheGreatest.main(args);print_divider();}
+                        case 3 -> {MoodSensor.main(args);print_divider();}
+                        case 4 -> {Dice.main(args);print_divider();}
+                        case 5 -> {Letter.main(args); print_divider();}
                     }
                 }
             }catch (InputMismatchException e){
@@ -109,7 +109,7 @@ class TheGreatest{
     }
     private static void display_results(int max, int min){
         if (min != max){
-            System.out.print("Наибольшее число: " + max + "\nНаименьшее число :" + min + "\n");
+            System.out.print("Наибольшее число: " + max + "\nНаименьшее число: " + min + "\n");
         } else {
             System.out.print("Все числа равны.\n");
         }
