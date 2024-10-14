@@ -5,21 +5,47 @@
  */
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 
 public class Main {
     private static void print_divider(){
         System.out.print("---------------------------------\n");
     }
     public static void main(String[] args) throws InterruptedException {
-        Dragon.main(args);
+        menu(args);
+    }
+    private static void menu(String[] args) throws InterruptedException{
         print_divider();
-        TheGreatest.main(args);
-        print_divider();
-        MoodSensor.main(args);
-        print_divider();
-        Dice.main(args);
-        print_divider();
-        Letter.main(args);
+        Scanner scanner = new Scanner(System.in);
+        int choice = -1;
+        while (choice < 0 || choice > 5){
+            System.out.print("""
+                    1. Дракон
+                    2. The Greatest
+                    3. Mood Sensor (with Evangelion reference)
+                    4. Кости
+                    5. Буквы
+                    0. Выход
+                    Выберите задание:\s""");
+            try{
+                choice = scanner.nextInt();
+                if (choice < 0 || choice > 5){
+                    System.out.println("Ошибка: Пожалуйста, введите число от 1 до 5.");
+                } else {
+                    print_divider();
+                    switch (choice){
+                        case 1 -> {Dragon.main(args); print_divider();break;}
+                        case 2 -> {TheGreatest.main(args);print_divider();break;}
+                        case 3 -> {MoodSensor.main(args);print_divider();break;}
+                        case 4 -> {Dice.main(args);print_divider();break;}
+                        case 5 -> {Letter.main(args); print_divider();break;}
+                    }
+                }
+            }catch (InputMismatchException e){
+                System.out.print("Ошибка: Пожалуйста, введите корректное число.");
+                scanner.next();
+            }
+        }
     }
 }
 /**
