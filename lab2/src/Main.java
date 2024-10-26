@@ -4,48 +4,50 @@
  * @subject ToPMP
  */
 import java.util.Scanner;
-import java.util.Arrays;
 import java.util.InputMismatchException;
 
 public class Main {
     private static void print_divider(){
         System.out.print("---------------------------------\n");
     }
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         menu(args);
     }
-    private static void menu(String[] args) throws InterruptedException{
-        print_divider();
+    private static void menu(String[] args){
         Scanner scanner = new Scanner(System.in);
-        int choice = -1;
-        while (choice < 0 || choice > 5){
-            System.out.print("""
-                    1. Дракон
-                    2. The Greatest
-                    3. Mood Sensor (with Evangelion reference)
-                    4. Кости
-                    5. Буквы
-                    0. Выход
-                    Выберите задание:\s""");
-            try{
-                choice = scanner.nextInt();
-                if (choice < 0 || choice > 5){
-                    System.out.println("Ошибка: Пожалуйста, введите число от 1 до 5.");
-                } else {
-                    print_divider();
-                    switch (choice){
-                        case 1 -> {Dragon.main(args); print_divider();}
-                        case 2 -> {TheGreatest.main(args);print_divider();}
-                        case 3 -> {MoodSensor.main(args);print_divider();}
-                        case 4 -> {Dice.main(args);print_divider();}
-                        case 5 -> {Letter.main(args); print_divider();}
+        print_divider();
+        int choice;
+        do{
+            choice = -1;
+            while (choice < 0 || choice > 5){
+                System.out.print("""
+                        1. Дракон
+                        2. The Greatest
+                        3. Mood Sensor
+                        4. Кости
+                        5. Буквы
+                        0. Выход
+                        Выберите задание:""");
+                try{
+                    choice = scanner.nextInt();
+                    if (choice < 0 || choice > 5){
+                        System.out.println("Ошибка: Пожалуйста, введите число от 1 до 5.");
+                    } else {
+                        print_divider();
+                        switch (choice){
+                            case 1 -> {Dragon.main(args); print_divider();}
+                            case 2 -> {TheGreatest.main(args);print_divider();}
+                            case 3 -> {MoodSensor.main(args);print_divider();}
+                            case 4 -> {Dice.main(args);print_divider();}
+                            case 5 -> {Letter.main(args); print_divider();}
+                        }
                     }
+                    }catch (InputMismatchException e){
+                    System.out.print("Ошибка: Пожалуйста, введите корректное число.");
+                    scanner.next();
                 }
-            }catch (InputMismatchException e){
-                System.out.print("Ошибка: Пожалуйста, введите корректное число.");
-                scanner.next();
             }
-        }
+        }while (choice!=0);
     }
 }
 /**
@@ -87,25 +89,38 @@ class Dragon{
 class TheGreatest{
     public static void main(String[] args){
         int[] numbers = get_numbers();
-        int max = max(numbers);
-        int min = min(numbers);
-        display_results(max,min);
+        display_results(max(numbers),min(numbers));
     }
     private static int[] get_numbers(){
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Введите числа (через запятую): ");
-        String input = scanner.nextLine();
-        String[] stringNums = input.split(",");
-        return(Arrays.stream(stringNums)
-                .map(String::trim) //RIP пробелы
-                .mapToInt(Integer::parseInt)//Конвертим в инт
-                .toArray());
+        System.out.print("Введите количество чисел: ");
+        int number_of_numbers = scanner.nextInt();
+        if (number_of_numbers == 0){System.out.print("ладно...");System.exit(0);}
+        int[] buffer = new int[number_of_numbers];
+        //for i in range(0,num_of_numbers-1)
+        for(int i = 0; i < number_of_numbers; i++){
+            System.out.print("Введите " + (i+1) + "-ое число: ");
+            buffer[i] = scanner.nextInt();
+        }
+        return(buffer);
     }
     private static int max(int[] numbers){
-        return Arrays.stream(numbers).max().orElseThrow();
+        int maxValue = numbers[0];
+        for (int number : numbers) {
+            if (number > maxValue) {
+                maxValue = number;
+            }
+        }
+        return maxValue;
     }
     private static int min(int[] numbers){
-        return Arrays.stream(numbers).min().orElseThrow();
+        int minValue = numbers[0];
+        for (int number : numbers) {
+            if (number < minValue) {
+                minValue = number;
+            }
+        }
+        return minValue; // Возвращаем минимальное значение
     }
     private static void display_results(int max, int min){
         if (min != max){
@@ -116,7 +131,7 @@ class TheGreatest{
     }
 }
 
-/** @task Напишите программу «Mood Sensor» (эмулировать датчика настроения),
+/** @task Напишите программу «Mood Sensor» (эмулировать датчик настроения),
  * которая «залазит» в душу пользователя и определяет его настроение в
  * текущий момент времени. Приложение будет генерировать случайное
  * число, в зависимости от значения которого на экран выводится одно из
@@ -124,33 +139,11 @@ class TheGreatest{
  * пользователя.
  */
 class MoodSensor{
-    public static void main(String[] args) throws InterruptedException {
-        display_evangelion_reference();
+    public static void main(String[] args) {
         compare_mood(get_mood(generate_random_number()));
-    }
-    private static void display_ellipsis () throws InterruptedException{
-        for(int i = 0; i < 3; i++){
-            System.out.print(".");
-            Thread.sleep(500);
-        }
-        System.out.print("\n");
     }
     private static int generate_random_number(){
         return (int) ((Math.random() * 5) +1);
-    }
-    private static void display_evangelion_reference() throws InterruptedException{
-        //Из-за того, что ты ненавидишь себя, никто тебя не уважает.
-        //Rei Ayanami, Episode №26: Take Care of Yourself
-        System.out.print("Поднимаем набор суперкомпьютеров Magi - 01");
-        display_ellipsis();
-        System.out.print("Поднимаем Magi - 1 (Мельхиор)");
-        display_ellipsis();
-        System.out.print("Поднимаем Magi - 2 (Бальтазар)");
-        display_ellipsis();
-        System.out.print("Поднимаем Magi - 3 (Каспер / -ар)");
-        display_ellipsis();
-        System.out.print("Компьютеры системы Magi дискутируют между собой");
-        display_ellipsis();
     }
     private static String get_mood(int random_number){
         return (switch (random_number) {
@@ -164,9 +157,9 @@ class MoodSensor{
     }
     private static void compare_mood(String mood){
             if (mood.equals("-")){
-                System.out.print("Система Маги не смогли определиться с вашим настроением, что вы за человек такой?");
+                System.out.print("Такого настроения нет в моей базе");
             } else {
-                System.out.print("Ваше настроение по решению системы Маги: " + mood + "\n");
+                System.out.print("Ваше настроение: " + mood + "\n");
             }
     }
 }
@@ -178,10 +171,9 @@ class MoodSensor{
  * подсчёта общей суммы очков, которые выпали на первой и второй костей.
  */
 class Dice{
-    public static void main(String[] args) throws InterruptedException{
+    public static void main(String[] args){
         int[] dices = new int[2];
         System.out.print("Бросаем кости");
-        display_ellipsis();
         for(int i = 0; i < 2; i++){
             dices[i] = generate_random_number();
         }
@@ -191,20 +183,17 @@ class Dice{
     private static int generate_random_number(){
         return (int) ((Math.random() * 6) +1);
     }
-    private static void display_ellipsis () throws InterruptedException{
-        for(int i = 0; i < 3; i++){
-            System.out.print(".");
-            Thread.sleep(500);
-        }
-        System.out.print("\n");
-    }
     private static int sum(int[] dices){
-        return Arrays.stream(dices).sum();
+        int sum = 0;
+        for(int dice: dices){
+            sum += dice;
+        }
+        return sum;
     }
     private static void display_dropped_dices(int[] dices ) {
         System.out.print("Выпавшие кости: \n");
-        for (int i = 0; i < 2; i++) {
-            System.out.print(dices[i]);
+        for (int dice:dices) {
+            System.out.print(dice);
         }
     }
     private static void display_sum(int sum){
