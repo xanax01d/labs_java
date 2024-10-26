@@ -31,7 +31,7 @@ public class Main {
                 try{
                     choice = scanner.nextInt();
                     if (choice < 0 || choice > 5){
-                        System.out.println("Ошибка: Пожалуйста, введите число от 1 до 5.");
+                        System.out.println("Ошибка: Пожалуйста, введите число от 1 до 5.\n");
                     } else {
                         print_divider();
                         switch (choice){
@@ -43,7 +43,7 @@ public class Main {
                         }
                     }
                     }catch (InputMismatchException e){
-                    System.out.print("Ошибка: Пожалуйста, введите корректное число.");
+                    System.out.print("Ошибка: Пожалуйста, введите корректное число.\n");
                     scanner.next();
                 }
             }
@@ -64,7 +64,7 @@ class Dragon{
         System.out.print("Введите возраст дракона: ");
         int age = scanner.nextInt();
         int[] result =  calculate_heads(age);
-        System.out.printf("Y дракона %s голов и %s глаз. \n",result[0],result[1]);
+        System.out.print("Y дракона " + result[0] + "голов и "+result[1]  + " глаз. \n");
     }
     private static int[] calculate_heads(int age){
         int heads = 3;
@@ -173,7 +173,7 @@ class MoodSensor{
 class Dice{
     public static void main(String[] args){
         int[] dices = new int[2];
-        System.out.print("Бросаем кости");
+        System.out.print("Бросаем кости\n");
         for(int i = 0; i < 2; i++){
             dices[i] = generate_random_number();
         }
@@ -193,11 +193,11 @@ class Dice{
     private static void display_dropped_dices(int[] dices ) {
         System.out.print("Выпавшие кости: \n");
         for (int dice:dices) {
-            System.out.print(dice);
+            System.out.print(dice+ " ");
         }
     }
     private static void display_sum(int sum){
-        System.out.print("Сумма выпавших очков на костях: " + sum);
+        System.out.print("\nСумма выпавших очков на костях: " + sum+"\n");
     }
 }
 
@@ -212,7 +212,7 @@ class Letter{
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
         System.out.print("Введите букву: ");
-        char letter = scanner.next().toLowerCase().charAt(0);//нижний регистр
+        char letter = scanner.next().toLowerCase().charAt(0);//нижний регистр, возьмет только первый символ
         if (!(Character.isLetter(letter))) {
             System.out.println("Ошибка: Введите только одну букву.");
             return;
@@ -223,7 +223,7 @@ class Letter{
         switch_case(letter);
         System.out.println("ARRAYS");
         arrays(letter);
-        System.out.println("BOOL");
+        System.out.println("Basic operations");
         bool(letter);
     }
     private static void if_else(char letter){
