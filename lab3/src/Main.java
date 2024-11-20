@@ -275,8 +275,5 @@ class GuessTheNumber {
         } else {
             System.out.print("\nТы угадал.\nЧисло: " + numberToGuess + "\nКоличество попыток: " + attempts);
         }
-        if (userGuess == 52) {
-            System.out.print("Это второй! 52 (Алло) Да здравствует Санкт-Петербург!\n");
-        }
     }
 }
