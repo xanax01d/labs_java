@@ -37,7 +37,8 @@ public class Main {
                 }
             }
         }
-    }
+}
+
 /**
  * The Grades class calculates and evaluates student grades for laboratory work.
  * It initializes an array of grades, calculates the average grade, and determines
