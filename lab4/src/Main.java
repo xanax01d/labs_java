@@ -14,7 +14,8 @@ public class Main {
             while (true) {
                 System.out.println("1. Запустить Grades");
                 System.out.println("2. Запустить CaesarCypher");
-                System.out.println("3. Выйти");
+                System.out.println("3. Запустить Sort");
+                System.out.println("4. Выйти");
                 System.out.print(">> ");
 
                 String choice = scanner.nextLine();
@@ -29,6 +30,10 @@ public class Main {
                         CaesarCypher.main(args);
                         break;
                     case "3":
+                        System.out.println("\n>>> Запускаем Sort...");
+                        Sort.main(args);
+                        break;
+                    case "4":
                         System.out.println("\n>>> Выход из программы");
                         return;
                     default:
@@ -174,9 +179,8 @@ class CaesarCypher{
     }
 }
 
-//NOT WORKING, DON'T CHECK.
-class Sort{
-    public static void main(String[] args){
+class Sort {
+    public static void main(String[] args) {
         int size = 20; // Размер массива
         int maxValue = 10; // Максимальное значение элементов
         int[] arr = GenerateRandomArray(size, maxValue);
@@ -184,45 +188,57 @@ class Sort{
         System.out.print("Исходный массив: ");
         printArray(arr);
 
-        int[] sortedArr = FrequencySort(arr);
+        int[] sortedArr = FrequencySort(arr, maxValue);
 
         System.out.print("Отсортированный массив по частоте: ");
         printArray(sortedArr);
     }
-    private static int[] FrequencySort(int[] arr){
-        int maxValue = FindMaxValue(arr, 0, 0);
+
+    private static int[] FrequencySort(int[] arr, int maxValue) {
+        // Step 1: Count frequencies of each number
         int[] frequency = new int[maxValue + 1];
-        CountFrequencies(arr, frequency, 0);
-        return SortByFrequency( frequency, 0, new int[arr.length], 0);
-    }
-    private static int FindMaxValue(int[] arr, int index, int maxValue) {
-        if (index >= arr.length) {
-            return maxValue;
+        for (int num : arr) {
+            frequency[num]++;
         }
-        return FindMaxValue(arr, index + 1, Math.max(maxValue, arr[index]));
-    }
 
-    private static void CountFrequencies(int[] arr, int[] frequency, int index) {
-        if (index >= arr.length) {
-            return;
+        // Step 2: Create an array of pairs (value, frequency)
+        int[][] valueFrequency = new int[maxValue + 1][2];
+        for (int i = 0; i <= maxValue; i++) {
+            valueFrequency[i][0] = i; // Store value
+            valueFrequency[i][1] = frequency[i]; // Store frequency
         }
-        frequency[arr[index]]++;
-        CountFrequencies(arr, frequency, index + 1);
-    }
 
-    private static int[] SortByFrequency( int[] frequency, int index, int[] result, int resultIndex) {
-        if (index >= frequency.length) {
-            return result;
-        }
-        if (frequency[index] > 0) {
-            for (int i = 0; i < frequency[index]; i++) {
-                result[resultIndex++] = index;
+        // Step 3: Sort the valueFrequency array by frequency (descending), then by value (ascending)
+        for (int i = 0; i < valueFrequency.length - 1; i++) {
+            for (int j = i + 1; j < valueFrequency.length; j++) {
+                if (valueFrequency[i][1] < valueFrequency[j][1] ||
+                        (valueFrequency[i][1] == valueFrequency[j][1] && valueFrequency[i][0] > valueFrequency[j][0])) {
+                    // Swap the two pairs
+                    int tempValue = valueFrequency[i][0];
+                    int tempFreq = valueFrequency[i][1];
+                    valueFrequency[i][0] = valueFrequency[j][0];
+                    valueFrequency[i][1] = valueFrequency[j][1];
+                    valueFrequency[j][0] = tempValue;
+                    valueFrequency[j][1] = tempFreq;
+                }
             }
         }
-        return SortByFrequency(frequency, index + 1, result, resultIndex);
+
+        // Step 4: Construct the sorted array
+        int[] result = new int[arr.length];
+        int index = 0;
+        for (int i = 0; i < valueFrequency.length; i++) {
+            int value = valueFrequency[i][0];
+            int freq = valueFrequency[i][1];
+            for (int j = 0; j < freq; j++) {
+                result[index++] = value;
+            }
+        }
+
+        return result;
     }
 
-    private static int[] GenerateRandomArray(int size, int maxValue){
+    private static int[] GenerateRandomArray(int size, int maxValue) {
         Random rand = new Random();
         int[] array = new int[size];
         for (int i = 0; i < size; i++) {
